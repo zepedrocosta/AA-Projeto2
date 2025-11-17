@@ -1,0 +1,41 @@
+name: Converter Slides Template para PDF
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'Slides Template.pptx'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Instalar LibreOffice
+        run: sudo apt-get update && sudo apt-get install -y libreoffice
+
+      - name: Converter Slides Template.pptx para PDF
+        run: |
+          libreoffice --headless --convert-to pdf "Slides Template.pptx" --outdir .
+
+      - name: Publicar PDF como artefato do workflow
+        uses: actions/upload-artifact@v4
+        with:
+          name: Slides-Template-PDF
+          path: Slides\ Template.pdf
+
+      - name: Commitar PDF gerado
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add "Slides Template.pdf"
+          git commit -m "Conversão automática de Slides Template.pptx para PDF ($(date '+%Y-%m-%d %H:%M:%S'))" || echo "Nada para commitar"
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
