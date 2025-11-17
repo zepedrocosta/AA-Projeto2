@@ -1,10 +1,10 @@
-name: Converter Slides Template para PDF
+name: Converter Slides para PDF
 
 on:
   push:
     branches: [ main ]
     paths:
-      - 'Slides Template.pptx'
+      - 'Slides.pptx'
   workflow_dispatch:
 
 permissions:
@@ -21,21 +21,21 @@ jobs:
       - name: Instalar LibreOffice
         run: sudo apt-get update && sudo apt-get install -y libreoffice
 
-      - name: Converter Slides Template.pptx para PDF
+      - name: Converter Slides.pptx para PDF
         run: |
-          libreoffice --headless --convert-to pdf "Slides Template.pptx" --outdir .
+          libreoffice --headless --convert-to pdf "Slides.pptx" --outdir .
 
       - name: Publicar PDF como artefato do workflow
         uses: actions/upload-artifact@v4
         with:
-          name: Slides-Template-PDF
-          path: Slides\ Template.pdf
+          name: Slides-PDF
+          path: Slides.pdf
 
       - name: Commitar PDF gerado
         if: github.ref == 'refs/heads/main'
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git add "Slides Template.pdf"
-          git commit -m "Conversão automática de Slides Template.pptx para PDF ($(date '+%Y-%m-%d %H:%M:%S'))" || echo "Nada para commitar"
+          git add "Slides.pdf"
+          git commit -m "Conversão automática de Slides.pptx para PDF ($(da\ '+%Y-%m-%d %H:%M:%S'))" || echo "Nada para commitar"
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
