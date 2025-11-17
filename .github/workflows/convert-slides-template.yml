@@ -7,6 +7,10 @@ on:
       - 'Slides.pptx'
   workflow_dispatch:
 
+env:
+  EMAIL_GITHUB: github-actions
+  USERNAME_GITHUB: github-actions
+
 permissions:
   contents: write
 
@@ -34,8 +38,8 @@ jobs:
       - name: Commitar PDF gerado
         if: github.ref == 'refs/heads/main'
         run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
+          git config --global user.email "$EMAIL_GITHUB"
+          git config --global user.name "$USERNAME_GITHUB"
           git add "Slides.pdf"
-          git commit -m "Conversão automática de Slides.pptx para PDF ($(da\ '+%Y-%m-%d %H:%M:%S'))" || echo "Nada para commitar"
+          git commit -m "Conversão automática de Slides.pptx para PDF ($(date '+%Y-%m-%d %H:%M:%S'))" || echo "Nada para commitar"
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
