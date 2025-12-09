@@ -2,9 +2,10 @@
 
 This repository contains the code and data for Machine Learning Project 2.
 
-**Final Kaggle score** - ???
+**Final Kaggle score** - 30th
 
 ---
+
 | Name   | File |
 |--------|------|
 | Tasks  | [Tasks.ipynb](./Tasks.ipynb) |
