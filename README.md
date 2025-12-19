@@ -10,5 +10,3 @@ This repository contains the code and data for Machine Learning Project 2.
 |--------|------|
 | Tasks  | [Tasks.ipynb](./Tasks.ipynb) |
 | Report | [Slides.pdf](./Slides.pdf) |
-
----
